@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jonathan Patino</title>
+<style>
+  :root {
+    --blue: #2563EB;
+    --blue-dark: #1d4ed8;
+    --ink: #111827;
+    --sub: #4b5563;
+    --card-bg: #f3f4f6;
+    --border: #e5e7eb;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background: #ffffff;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  main {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 96px 0 48px;
+  }
+  .hero h1 {
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+    color: var(--ink);
+  }
+  .hero .role {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--blue);
+    margin: 0 0 16px;
+  }
+  .hero .tagline {
+    font-size: 1.05rem;
+    color: var(--sub);
+    margin: 0;
+    max-width: 52ch;
+  }
+
+  /* Trait cards */
+  .traits {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 0 64px;
+  }
+  .trait-card {
+    background: var(--card-bg);
+    border-left: 4px solid var(--blue);
+    border-radius: 10px;
+    padding: 20px 24px;
+  }
+  .trait-card h2 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0 0 8px;
+    color: var(--ink);
+  }
+  .trait-card p {
+    font-size: 0.95rem;
+    color: var(--sub);
+    margin: 0;
+  }
+
+  /* Contact */
+  .contact {
+    border-top: 1px solid var(--border);
+    padding: 40px 0 64px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+  }
+  .btn {
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 12px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .btn-primary {
+    background: var(--blue);
+    color: #ffffff;
+  }
+  .btn-primary:hover {
+    background: var(--blue-dark);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--blue);
+    border-color: var(--blue);
+  }
+  .btn-outline:hover {
+    background: rgba(37, 99, 235, 0.06);
+  }
+  .copy-note {
+    width: 100%;
+    font-size: 0.85rem;
+    color: var(--blue);
+    margin-top: -2px;
+    min-height: 1.2em;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+  .copy-note.show {
+    opacity: 1;
+  }
+
+  @media (max-width: 480px) {
+    .hero { padding: 64px 0 36px; }
+    .contact { flex-direction: column; align-items: stretch; }
+    .btn { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <section class="hero">
+    <h1>Jonathan Patino</h1>
+    <p class="role">AI Builder</p>
+    <p class="tagline">Career changer building toward tech — chemistry degree, union ironworker, now software.</p>
+  </section>
+
+  <section class="traits">
+    <div class="trait-card">
+      <h2>I execute when the original plan falls apart</h2>
+      <p>When my chemistry degree didn't translate into a job, I didn't wait for a better option — I worked restaurant jobs while pushing into a union ironworker apprenticeship, and got in.</p>
+    </div>
+    <div class="trait-card">
+      <h2>I've already rebuilt a career from zero, under worse conditions than most</h2>
+      <p>A workplace accident damaged my spine and ended my ability to do physical labor. Instead of stalling, I started over — now retraining for tech through Pursuit.</p>
+    </div>
+    <div class="trait-card">
+      <h2>I go find the next step instead of waiting to be handed one</h2>
+      <p>Twice now I've generated my own next move rather than waiting for circumstances to hand me one. That's the pattern a team can rely on.</p>
+    </div>
+  </section>
+
+  <section class="contact">
+    <a class="btn btn-primary" href="mailto:jonathan.patino@pursuit.org?subject=Let%27s%20connect">Email Me</a>
+    <button class="btn btn-outline" id="resumeBtn" type="button">Resume — Available on Request</button>
+    <div class="copy-note" id="copyNote">Email copied to clipboard: jonathan.patino@pursuit.org</div>
+  </section>
+
+</main>
+
+<script>
+  const resumeBtn = document.getElementById('resumeBtn');
+  const copyNote = document.getElementById('copyNote');
+  let hideTimer = null;
+
+  resumeBtn.addEventListener('click', async () => {
+    const email = 'jonathan.patino@pursuit.org';
+    try {
+      await navigator.clipboard.writeText(email);
+    } catch (err) {
+      const temp = document.createElement('textarea');
+      temp.value = email;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      document.body.removeChild(temp);
+    }
+    copyNote.classList.add('show');
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => copyNote.classList.remove('show'), 4000);
+  });
+</script>
+
+</body>
+</html>
